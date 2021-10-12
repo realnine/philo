@@ -9,9 +9,12 @@ all : $(NAME)
 $(NAME) :
 	$(CC) $(SRCS) -o $(NAME)
 
+clean :
+	rm $(NAME)
+
 fclean :
 	rm -rf $(NAME) $(NAME).dSYM
 
 re : fclean $(NAME)
 
-.PHONY : all fclean re
+.PHONY : all clean fclean re
