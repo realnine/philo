@@ -45,3 +45,17 @@ int	get_present_time(void)
 	i = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (i);
 }
+
+void	ft_usleep(int spend_time)
+{
+	int	goal_time;
+	int	cur_time;
+
+	goal_time = get_present_time() + spend_time;
+	cur_time = get_present_time();
+	while (cur_time < goal_time)
+	{
+		usleep((goal_time - cur_time) * 1000 / 2);
+		cur_time = get_present_time();
+	}
+}

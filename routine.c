@@ -24,9 +24,10 @@ int	eating(t_philo *philo)
 {
 	if (print_msg(EAT, philo) == STOP)
 		return (STOP);
-	usleep(philo->table->time_eat * 1000);
-	philo->cnt_eat++;
 	philo->last_eat_time = get_present_time();
+	ft_usleep(philo->table->time_eat);
+	philo->last_eat_time = get_present_time();
+	philo->cnt_eat++;
 	put_fork(philo);
 	return (0);
 }
@@ -35,7 +36,7 @@ int	sleep_and_think(t_philo *philo)
 {
 	if (print_msg(SLEEP, philo) == STOP)
 		return (STOP);
-	usleep(philo->table->time_sleep * 1000);
+	ft_usleep(philo->table->time_sleep);
 	if (print_msg(THINK, philo) == STOP)
 		return (STOP);
 	return (0);
@@ -44,13 +45,11 @@ int	sleep_and_think(t_philo *philo)
 void	*routine(void *data)
 {
 	t_philo	*philo;
-	t_table	*table;
 
 	philo = (t_philo *)data;
-	table = philo->table;
 	while (1)
 	{
-		if (take_fork(philo, table) == STOP)
+		if (take_fork(philo, philo->table) == STOP)
 			break ;
 		if (eating(philo) == STOP)
 			break ;

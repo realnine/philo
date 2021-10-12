@@ -45,8 +45,6 @@ int	init_table(t_table *table)
 		return (ERR);
 	if (init_fork_mtx_arr(table) == ERR)
 		return (ERR);
-	pthread_mutex_init(&table->eat_mtx, NULL);
 	pthread_mutex_init(&table->msg_mtx, NULL);
-	pthread_mutex_init(&table->check_stop_mtx, NULL);
 	return (0);
 }

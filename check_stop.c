@@ -47,7 +47,6 @@ int	check_time(t_table *table)
 
 int	check_stop(t_table *table)
 {
-	pthread_mutex_lock(&table->check_stop_mtx);
 	if (table->num_must_eat > 0)
 	{
 		if (check_cnt(table) == STOP)
@@ -55,6 +54,5 @@ int	check_stop(t_table *table)
 	}
 	if (check_time(table) == STOP)
 		return (STOP);
-	pthread_mutex_unlock(&table->check_stop_mtx);
 	return (0);
 }

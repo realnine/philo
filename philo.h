@@ -51,17 +51,15 @@ typedef struct s_table
 	int				start_time;
 	t_philo			*philo_arr;
 
-	pthread_mutex_t	eat_mtx;
 	pthread_mutex_t	msg_mtx;
-	pthread_mutex_t	check_stop_mtx;
 	pthread_mutex_t	*fork_mtx_arr;
 }	t_table;
 
 // utils.c
 int		ft_strlen(char const *str);
 int		ft_atoi(char const *str);
-void	ft_putnbr_fd(uint64_t n, int fd);
 int		get_present_time(void);
+void	ft_usleep(int spend_time);
 
 // message.c
 int		err_msg(char *msg);

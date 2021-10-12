@@ -8,11 +8,11 @@ int	print_msg(int what, t_philo *philo)
 	printf("%-8d", get_present_time() - philo->table->start_time);
 	if (what == L_FORK)
 		printf("[philo_" GREEN "%d" RESET
-			"] has held [" BLUE "%d" RESET
+			"] has taken [" BLUE "%d" RESET
 			"] fork\n", philo->index, philo->lfork_idx);
 	else if (what == R_FORK)
 		printf("[philo_" GREEN "%d" RESET
-			"] has held [" BLUE "%d" RESET
+			"] has taken [" BLUE "%d" RESET
 			"] fork\n", philo->index, philo->rfork_idx);
 	else if (what == EAT)
 	{
