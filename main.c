@@ -47,8 +47,8 @@ int	arg_check(t_table *table, int argc, char **argv)
 	if (table->num_p < 2 || table->num_p > 300)
 		return (err_msg("wrong num_philo(rule : philo >= 2 && philo <= 300)\n"));
 	table->time_die = ft_atoi(argv[2]);
-	if (table->time_die < 10)
-		return (err_msg("wrong time to die (rule : time_die >= 10)\n"));
+	if (table->time_die < 25)
+		return (err_msg("wrong time to die (rule : time_die >= 25)\n"));
 	table->time_eat = ft_atoi(argv[3]);
 	if (table->time_eat < 10)
 		return (err_msg("wrong time to eat (rule : time_eat >= 10)\n"));

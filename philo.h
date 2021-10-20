@@ -28,7 +28,8 @@
 // main functions rtn val
 # define ERR		1
 
-typedef struct s_philo //threads
+//threads
+typedef struct s_philo
 {
 	pthread_t		thr_id;
 	int				index;

@@ -32,7 +32,8 @@ int	init_fork_mtx_arr(t_table *table)
 		return (ERR);
 	while (i < table->num_p)
 	{
-		pthread_mutex_init(&table->fork_mtx_arr[i], NULL);
+		if (pthread_mutex_init(&table->fork_mtx_arr[i], NULL))
+			return (ERR);
 		i++;
 	}
 	return (0);
@@ -45,6 +46,7 @@ int	init_table(t_table *table)
 		return (ERR);
 	if (init_fork_mtx_arr(table) == ERR)
 		return (ERR);
-	pthread_mutex_init(&table->msg_mtx, NULL);
+	if (pthread_mutex_init(&table->msg_mtx, NULL))
+		return (ERR);
 	return (0);
 }
