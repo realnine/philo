@@ -44,7 +44,6 @@
 
 typedef struct s_philo
 {
-	pthread_t		thr_id;
 	int				index;
 	int				last_eat_time;
 	int				death_time;
@@ -85,8 +84,7 @@ void	ft_usleep(int spend_time);
 
 // msg.c
 int		err_msg(int what);
-int		act_msg(int what, t_philo *philo);
-int		end_msg(int what, t_philo *philo);
+void	msg_print(int what, t_philo *philo);
 
 // init.c
 int		init_table(t_table *table);

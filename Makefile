@@ -1,4 +1,6 @@
-CC		= gcc -pthread -g3
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror -I.
+LIBS	= -lpthread
 
 SRCS	= main.c init.c utils.c msg.c routine.c checker.c deallocate.c 
 
@@ -7,7 +9,7 @@ NAME	= philo
 all : $(NAME)
 
 $(NAME) :
-	$(CC) $(SRCS) -o $(NAME)
+	$(CC) ${CFLAGS} $(SRCS) -o $(NAME) ${LIBS}
 
 clean :
 	rm $(NAME)

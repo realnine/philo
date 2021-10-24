@@ -20,7 +20,8 @@ int	init_fork_mtx_arr(t_table *table)
 
 int	init_philo_arr(t_table *table)
 {
-	int	i;
+	int		i;
+	t_philo	*philo;
 
 	i = 0;
 	table->philo_arr = (t_philo *)malloc(sizeof(t_philo) * table->num_philo);
@@ -28,14 +29,15 @@ int	init_philo_arr(t_table *table)
 		return (ERR);
 	while (i < table->num_philo)
 	{
-		table->philo_arr[i].all_ate = 0;
-		table->philo_arr[i].index = i;
-		table->philo_arr[i].table = table;
-		table->philo_arr[i].lfork = &(table->fork_mtx_arr[i]);
-		table->philo_arr[i].rfork = &(table->fork_mtx_arr[(i + 1) % table->num_philo]);
-		table->philo_arr[i].lfork_idx = i;
-		table->philo_arr[i].rfork_idx = (i + 1) % table->num_philo;
-		table->philo_arr[i].cnt_eat = 0;
+		philo = &(table->philo_arr[i]);
+		philo->all_ate = 0;
+		philo->index = i + 1;
+		philo->table = table;
+		philo->lfork = &(table->fork_mtx_arr[i]);
+		philo->rfork = &(table->fork_mtx_arr[(i + 1) % table->num_philo]);
+		philo->lfork_idx = i;
+		philo->rfork_idx = (i + 1) % table->num_philo;
+		philo->cnt_eat = 0;
 		if (pthread_mutex_init(&table->philo_arr[i].eat_mtx, NULL))
 			return (ERR);
 		i++;
@@ -48,17 +50,12 @@ int	init_table(t_table *table)
 	table->state = RUN;
 	if (init_fork_mtx_arr(table) == ERR)
 		return (ERR);
-
 	if (init_philo_arr(table) == ERR)
 		return (ERR);
-	
 	if (pthread_mutex_init(&table->msg_mtx, NULL))
 		return (ERR);
-
 	if (pthread_mutex_init(&table->main_mtx, NULL))
 		return (ERR);
-
 	pthread_mutex_lock(&table->main_mtx);
-	
 	return (0);
 }

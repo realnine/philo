@@ -1,34 +1,25 @@
 #include "philo.h"
 
-int	act_msg(int what, t_philo *philo)
+void	act_msg(int what, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->msg_mtx);
-	if (philo->table->state == STOP)
-		return (0);
-	printf("%-8d", get_present_time() - philo->table->start_time);
+	printf(G"%-3d"RS, philo->index);
 	if (what == L_FORK)
-		printf(G"%-3d"RS" has taken ["B"%d"RS"]lfork\n", philo->index, philo->lfork_idx);
+		printf(" has taken a fork_l ["B"%d"RS"]\n", philo->lfork_idx);
 	else if (what == R_FORK)
-		printf(G"%-3d"RS" has taken ["B"%d"RS"]rfork\n", philo->index, philo->rfork_idx);
+		printf(" has taken a fork_r ["B"%d"RS"]\n", philo->rfork_idx);
 	else if (what == EAT)
 	{
-		printf(G"%-3d"RS" eating (ate %d time),", philo->index, philo->cnt_eat);
+		printf(" eating (ate %d time),", philo->cnt_eat);
 		printf(" (starv %dms)\n", get_present_time() - philo->last_eat_time);
 	}
 	else if (what == SLEEP)
-		printf(G"%-3d"RS" is sleeping\n", philo->index);
+		printf(" is sleeping\n");
 	else if (what == THINK)
-		printf(G"%-3d"RS" is thinking\n", philo->index);
-	pthread_mutex_unlock(&philo->table->msg_mtx);
-	return (0);
+		printf(" is thinking\n");
 }
 
-int end_msg(int what, t_philo *philo)
+void	end_msg(int what, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->msg_mtx);
-	if (philo->table->state == STOP)
-		return (0);
-	printf("%-8d", get_present_time() - philo->table->start_time);
 	if (what == END_COUNT)
 		printf(R "All philosophers ate their quota" RS "\n");
 	else if (what == END_STARV)
@@ -37,13 +28,25 @@ int end_msg(int what, t_philo *philo)
 		printf(" (starv %dms)\n", get_present_time() - philo->last_eat_time);
 	}
 	philo->table->state = STOP;
+}
+
+void	msg_print(int what, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->msg_mtx);
+	if (philo->table->state != RUN)
+		return ;
+	printf("%-8d", get_present_time() - philo->table->start_time);
+	if (what == END_COUNT || what == END_STARV)
+		end_msg(what, philo);
+	else
+		act_msg(what, philo);
 	pthread_mutex_unlock(&philo->table->msg_mtx);
-	return (0);
 }
 
 int	err_msg(int what)
 {
-	char *msg;
+	char	*msg;
+
 	if (what == ERR_ARG1)
 		msg = "wrong argc(rule : argc == 5 || argc == 6) \n";
 	else if (what == ERR_ARG2)
@@ -66,12 +69,4 @@ int	err_msg(int what)
 		msg = "make_ckecker error\n";
 	write(2, msg, ft_strlen(msg));
 	return (ERR);
-}
-
-void	tmp_print(char *str, t_philo *philo, int starv)
-{
-	pthread_mutex_lock(&philo->table->msg_mtx);
-	printf("%-8d", get_present_time() - philo->table->start_time);
-	printf("[%d] %s (starv : %d)\n", philo->index, str, starv);
-	pthread_mutex_unlock(&philo->table->msg_mtx);
 }
