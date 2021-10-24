@@ -1,6 +1,6 @@
-CC		= gcc -pthread
+CC		= gcc -pthread -g3
 
-SRCS	= main.c init.c utils.c message.c routine.c check_stop.c
+SRCS	= main.c init.c utils.c msg.c routine.c checker.c deallocate.c 
 
 NAME	= philo
 

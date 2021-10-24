@@ -10,30 +10,40 @@ int	ft_strlen(char const *str)
 	return (i);
 }
 
-int	ft_atoi(char const *str)
+int	ft_isspace(char c)
 {
-	int	i;
-	int	start;
-	int	is_neg;
-	int	res;
-
-	if (!str)
+	if (c == ' ' || c == '\n' || c == '\t'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	else
 		return (0);
+}
+
+int	ft_atoi(const char *str)
+{
+	long	nbr;
+	long	sign;
+	size_t	i;
+
+	nbr = 0;
+	sign = 1;
 	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
-		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
+	while ((str[i] != '\0') && ft_isspace(str[i]) == 1)
 		i++;
 	if (str[i] == '-')
-		is_neg = -1;
-	else
-		is_neg = 1;
-	if (is_neg == -1 || str[i] == '+')
+		sign = -1;
+	if ((str[i] == '-') || (str[i] == '+'))
 		i++;
-	start = i;
-	res = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-		res = (res * 10) + (str[i++] - '0');
-	return (res * is_neg);
+	while ((str[i] != '\0') && ('0' <= str[i]) && (str[i] <= '9'))
+	{
+		nbr = (nbr * 10) + (str[i] - '0');
+		if (nbr > 2147483647 && sign == 1)
+			return (-1);
+		if (nbr > 2147483648 && sign == -1)
+			return (0);
+		i++;
+	}
+	return (sign * nbr);
 }
 
 int	get_present_time(void)
